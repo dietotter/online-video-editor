@@ -1,0 +1,5 @@
+# Importing CORS (npm i -s cors)
+import cors from 'cors'
+
+// configure cors (read more about this)
+app.use(cors())
