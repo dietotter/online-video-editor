@@ -3,3 +3,4 @@
 ## TODO
 
 - [ ] Add ffmpeg to project
+- [ ] Decide on socket or http client-server communication (probs socket)
