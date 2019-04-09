@@ -1,0 +1,13 @@
+export const SPINNER = 'SPINNER'
+export const SIGN_IN = 'socket/SIGN_IN'
+export const SIGN_OUT = 'SIGN_OUT'
+export const WHOLESALERS_LIST = 'WHOLESALERS_LIST'
+export const SNACK = 'SNACK'
+export const CLEAR_SNACK = 'CLEAR_SNACK'
+export const GET_USERS = 'socket/GET_USERS'
+export const GET_USER_DETAILS = 'socket/GET_USER_DETAILS'
+export const USERS_LIST = 'USERS_LIST'
+export const USER_DETAILS = 'USER_DETAILS'
+
+export const TEST_ACTION = 'TEST_ACTION'
+export const TEST_ACTION_PAYLOAD = 'TEST_ACTION_PAYLOAD'
