@@ -7,3 +7,9 @@ node_modules
 
 # Mac
 .DS_Store
+
+# Local work
+c-video-player
+
+# Build
+build

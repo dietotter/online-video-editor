@@ -1,0 +1,5 @@
+Dependencies, installed with ffmpeg by brew (I want to delete them):
+aom, libpng, freetype, fontconfig, frei0r, gmp, libtasn1, libunistring, nettle, libffi, p11-kit, libevent, unbound, gnutls, lame, fribidi, gettext, pcre, readline, sqlite, python, glib, pixman, cairo, graphite2, icu4c, harfbuzz, libass, libbluray, libsoxr, libogg, libvorbis, libvpx, opencore-amr, jpeg, libtiff, little-cms2, openjpeg, opus, rtmpdump, flac, libsndfile, libsamplerate, rubberband, sdl2, snappy, speex, giflib, webp, leptonica, tesseract, theora, x264, x265 and xvid
+
+Also, delete SDL:
+sdl

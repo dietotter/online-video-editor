@@ -1,0 +1,2 @@
+# Command to cut the file to needed length (hh:mm:ss) (make a 15 sec video from starting point of 00:01:00)
+ffmpeg -ss 00:01:00 -i input.mp4 -to 00:00:15 -c copy output.mp4
