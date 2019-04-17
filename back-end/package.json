@@ -15,7 +15,10 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "fluent-ffmpeg": "^2.1.2",
-    "morgan": "^1.9.1"
+    "http": "0.0.0",
+    "morgan": "^1.9.1",
+    "socket.io": "^2.2.0",
+    "ws": "^6.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

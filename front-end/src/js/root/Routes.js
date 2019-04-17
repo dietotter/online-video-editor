@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import TestContainer from '../components/TestContainer/'
+import VideoEditor from '../components/VideoEditor/'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -16,10 +17,11 @@ export class Routes extends Component {
     }
 
     render () {
+        const { socket } = this.props
         return (
             <Switch>
                 <Route exact path='/' component={TestContainer} />
-                {/*<Route path='/users' component={UsersList} />*/}
+                <Route path='/editor' render={props => <VideoEditor socket={socket} {...props}/>}/>
                 {/*<Route path='/user/:userId' component={UserDetails} />*/}
                 {/*<Route component={NotFoundPage} />*/}
             </Switch>

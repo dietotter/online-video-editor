@@ -8,12 +8,12 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 
 export default class Root extends Component {
     render () {
-        const { store, history } = this.props
+        const { store, history, socket } = this.props
         return (
             <MuiThemeProvider theme={theme}>
                 <Provider store={store}>
                     <ConnectedRouter history={history}>
-                        <App />
+                        <App socket={socket} />
                     </ConnectedRouter>
                 </Provider>
             </MuiThemeProvider>

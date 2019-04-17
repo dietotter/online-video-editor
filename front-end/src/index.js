@@ -4,12 +4,30 @@ import { AppContainer } from 'react-hot-loader'
 import configureStore, { history } from './js/store/configureStore'
 import Root from './js/root'
 
-const store = configureStore()
+import io from 'socket.io-client'
+import createSocketIoMiddleware from 'redux-socket.io'
+import ls from './js/utils/ls'
+import config from './js/config'
+
+const token = ls.get('token')
+
+let socket = io(config.apiServerAddress, {
+    query: {
+        token
+    },
+    transports: ['websocket']
+})
+
+socket.on('token', token => ls.save('token', token))
+
+let socketIoMiddleware = createSocketIoMiddleware(socket, 'socket/')
+
+const store = configureStore(socketIoMiddleware)
 const app = document.getElementById('app')
 
 ReactDOM.render(
     <AppContainer>
-        <Root store={store} history={history} />
+        <Root store={store} history={history} socket={socket} />
     </AppContainer>, app)
 
 console.log('smth')
@@ -28,6 +46,5 @@ if (module.hot) {
 
 // TODO
 //
-// Implement react-player on front (maybe use video-react)
+// Implement react-player on front (maybe use video-react instead)
 // Css-loader
-// Implement socket connection between back and front

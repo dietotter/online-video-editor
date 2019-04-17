@@ -4,7 +4,7 @@ import {
 } from '../../redux/actionTypes'
 
 // ======================= INITIAL STATE =======================
-export const TestContainerState = {
+export const VideoEditorState = {
     counter: 0,
     serverMsg: ''
 }
@@ -25,7 +25,7 @@ const testConnection = ({ message }) => ({
 })
 
 // ======================= REDUCER =======================
-export const testContainerReducer = {
+export const videoEditorReducer = {
     [TEST_ACTION]: (state) => ({
         ...state,
         counter: state.counter + 1
@@ -41,9 +41,9 @@ export const testContainerReducer = {
 }
 
 // ======================= REDUCER AND ACTIONS EXPORTS =======================
-export const testContainerState = createReducer(
-    testContainerReducer,
-    TestContainerState
+export const videoEditorState = createReducer(
+    videoEditorReducer,
+    VideoEditorState
 )
 
 export const actions = {

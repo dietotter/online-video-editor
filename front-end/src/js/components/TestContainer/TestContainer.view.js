@@ -1,13 +1,14 @@
 import React, { Component } from "react"
 import Input from "../../presentational/Input/Input.js"
-import { withStyles, Button, Typography } from '@material-ui/core'
+import { withStyles, Button, Typography, TextField } from '@material-ui/core'
 import ReactPlayer from 'react-player'
 
 class TestContainer extends Component {
     constructor() {
         super();
         this.state = {
-            seo_title: ""
+            seo_title: "",
+            message: ''
         };
         this.handleChange = this.handleChange.bind(this);
     }
@@ -17,8 +18,8 @@ class TestContainer extends Component {
     }
 
     render() {
-        const { seo_title } = this.state;
-        const { testContainerState: { counter }, testActions: { testAction, testActionWithPayload }, classes} = this.props;
+        const { seo_title, message } = this.state;
+        const { push, testContainerState: { counter, serverMsg }, testActions: { testAction, testActionWithPayload, testConnection }, classes} = this.props;
 
         return (
             <div>
@@ -43,6 +44,27 @@ class TestContainer extends Component {
                 <Button variant="contained" color="secondary" className={classes.testButtonPayload} onClick={() => testActionWithPayload({counter: 5})}>
                     Test with payload 5
                 </Button>
+                <div>
+                    <TextField
+                        id="message"
+                        label="Say smth to server"
+                        className={classes.textField}
+                        value={message}
+                        onChange={this.handleChange}
+                        margin="normal"
+                    />
+                    <Button variant="contained" className={classes.connectionButton} color="primary" onClick={() => (message ? testConnection({message}) : false)}>
+                        Check connection
+                    </Button>
+                    <Typography variant="h4" gutterBottom>
+                        Server says: {serverMsg}
+                    </Typography>
+                </div>
+                <div>
+                    <Button variant="contained" color="secondary" onClick={() => push('editor')}>
+                        Go to editor
+                    </Button>
+                </div>
             </div>
         );
     }
@@ -55,6 +77,13 @@ const style = {
     },
     testButtonPayload: {
         marginLeft: 200
+    },
+    textField: {
+        width: 200,
+    },
+    connectionButton: {
+        display: 'block',
+        margin: 20
     },
 }
 

@@ -6,12 +6,12 @@ import { rootStyle as styles } from './theme'
 
 export class App extends React.Component {
     render () {
-        const { classes } = this.props
+        const { classes, socket } = this.props
         return (
             <div className={classes.root}>
                 <div className={classes.appFrame}>
                     <div className={classes.content}>
-                        <Routes />
+                        <Routes socket={socket}/>
                     </div>
                 </div>
             </div>

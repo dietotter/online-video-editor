@@ -13,3 +13,10 @@ c-video-player
 
 # Build
 build
+
+# Files (e.g. video)
+back-end/src/files/*
+front-end/static/*
+
+# Text version of course work
+textversion

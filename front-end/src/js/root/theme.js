@@ -1,10 +1,14 @@
 import { createMuiTheme } from '@material-ui/core/styles'
+import yellow from '@material-ui/core/colors/yellow'
 import green from '@material-ui/core/colors/green'
 
 export default createMuiTheme({
   // https://material-ui-next.com/customization/themes/#the-other-variables
   // overrides
   palette: {
+    primary: {
+      ...yellow
+    },
     secondary: {
       ...green,
       A200: green[500]

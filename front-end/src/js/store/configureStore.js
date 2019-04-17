@@ -1,7 +1,3 @@
-import io from 'socket.io-client'
-import createSocketIoMiddleware from 'redux-socket.io'
-import ls from '../utils/ls'
-import config from '../config'
 import { createStore, compose, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
@@ -11,20 +7,7 @@ import { routerMiddleware } from 'connected-react-router'
 import rootReducer from '../redux'
 export const history = createBrowserHistory()
 
-const token = ls.get('token')
-
-export let socket = io(config.apiServerAddress, {
-  query: {
-    token
-  },
-  transports: ['websocket']
-})
-
-socket.on('token', token => ls.save('token', token))
-
-let socketIoMiddleware = createSocketIoMiddleware(socket, 'socket/')
-
-function configureStoreDev (initialState) {
+function configureStoreDev (socketIoMiddleware, initialState) {
   const reactRouterMiddleware = routerMiddleware(history)
   const middlewares = [
     // Add other middleware on this line...

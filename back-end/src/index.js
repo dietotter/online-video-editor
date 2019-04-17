@@ -1,12 +1,15 @@
 import express from 'express'
+import http from 'http'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import cors from 'cors'
 
 import config from './config'
 import routes from './routes'
+import socket from './socket'
 
 const app = express()
+app.server = http.createServer(app)
 
 // configure logger
 app.use(morgan('dev'))
@@ -24,7 +27,8 @@ routes(app)
 
 // launch server on port
 const { port } = config
-app.listen(port, () => {
+app.server.listen(port, () => {
+    socket(app.server)
     console.log('Fml on', port)
 })
 
