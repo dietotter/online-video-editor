@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { withStyles, Button } from '@material-ui/core'
+import {withStyles, Button, Typography} from '@material-ui/core'
 import ReactPlayer from 'react-player'
 import Timeline from 'timeline-editor-react'
 import JSMpeg from 'jsmpeg-player'
@@ -21,14 +21,16 @@ class VideoEditor extends Component {
     }
 
     componentDidMount() {
-        // new JSMpeg.VideoElement('#videoWrapper', videoUrl)
-        // new Fil
-        console.log('hey', this.socket)
+        new JSMpeg.VideoElement('#videoWrapper', videoUrl)
+
+        // read video from server
+        // let fileBuffer
+        // this.socket.on('')
     }
 
     componentDidUpdate(prevProps, prevState) {
         // upload video to server
-        if (this.state.uploadingStatus === 'loading' && prevState.uploadingStatus !== 'loading') {
+        if (this.state.uploadingStatus === 'uploading' && prevState.uploadingStatus !== 'uploading') {
             // when button is blocked, start uploading
 
             const { videoInput } = this.state
@@ -53,12 +55,10 @@ class VideoEditor extends Component {
                 fileReader.readAsArrayBuffer(slice)
             })
 
-            this.socket.on('upload error', () => {
-                console.log('Upload error')
-            })
-
             this.socket.on('end upload', ({status}) => {
                 console.log('Finished uploading: ' + status)
+                this.socket.off('request slice upload')
+                this.socket.off('end upload')
                 this.setState({videoInput: null, uploadingStatus: status})
             })
         }
@@ -69,6 +69,7 @@ class VideoEditor extends Component {
     }
 
     handleChange(event) {
+        console.log('event')
         if (event.target.id === 'videoInput') {
             this.setState({videoInput: event.target.files[0], blockUploadButton: false})
             return;
@@ -77,7 +78,7 @@ class VideoEditor extends Component {
     }
 
     render() {
-        const { kek, videoInput, blockUploadButton } = this.state;
+        const { kek, videoInput, blockUploadButton, uploadingStatus } = this.state;
         const { classes } = this.props;
 
         console.log(videoInput)
@@ -92,27 +93,32 @@ class VideoEditor extends Component {
                     {/*<Timeline layers={layers} frames={frames} onUpdateFrames={onUpdateFrames}/>*/}
                 {/*</div>*/}
                 <div>
-                    <input type="file"
-                           id="videoInput" name="videoInput"
-                           className={classes.input}
-                           style={{ display: 'none' }}
-                           accept="video/*"
-                           onChange={this.handleChange}
-                    />
-                    <label htmlFor="videoInput">
-                        <Button variant="contained" component="span" className={classes.button}>
-                            {!videoInput ? 'Choose video' : 'Change video'}
-                        </Button>
-                    </label>
-                    {videoInput ? <
-                        Button variant="contained"
-                               component="span"
-                               className={classes.button}
-                               onClick={this.uploadVideoToServer}
-                               disabled={blockUploadButton}
-                    >
-                        Upload
-                    </Button> : null}
+                    <Typography variant="subtitle1" gutterBottom>
+                        {!uploadingStatus ? 'Choose your video to upload!' : `Uploading status: ${uploadingStatus}`}
+                    </Typography>
+                    <div>
+                        <input type="file"
+                               id="videoInput" name="videoInput"
+                               className={classes.input}
+                               style={{ display: 'none' }}
+                               accept="video/*"
+                               onChange={this.handleChange}
+                        />
+                        <label htmlFor="videoInput">
+                            <Button variant="contained" component="span" className={classes.button}>
+                                {!videoInput ? 'Choose video' : 'Change video'}
+                            </Button>
+                        </label>
+                        {videoInput ? <
+                            Button variant="contained"
+                                   component="span"
+                                   className={classes.button}
+                                   onClick={this.uploadVideoToServer}
+                                   disabled={blockUploadButton}
+                        >
+                            Upload
+                        </Button> : null}
+                    </div>
                 </div>
             </div>
         );

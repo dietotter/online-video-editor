@@ -5,6 +5,8 @@ import { handleConnection } from './utils/token'
 import fs from 'fs'
 import path from 'path'
 
+import { convertForJSMpegCommand } from './ffmpeg/convertForJSMpeg'
+
 export default async (server) => {
     const io = socketIo(server)
     const connectedUsers = new Map()
@@ -78,20 +80,44 @@ const setUpVideoUpload = (socket) => {
                 let fileBuffer = Buffer.concat(files[data.name].data)
                 fs.writeFileSync(path.join(__dirname, '/files/' + data.name), fileBuffer, (err) => {
                     delete files[data.name]
-                    if (err) return socket.emit('upload error')
-                    socket.emit('end upload', {
-                        status: 'failure'
-                    })
+                    if (err) {
+                        console.log('Upload error', err)
+                        return socket.emit('end upload', {
+                            status: 'error'
+                        })
+                    }
                 })
 
                 console.log('slice', files[data.name].slice)
                 socket.emit('end upload', {
                     status: 'success'
                 })
+                // convert video to jsmpeg format
+                convertVideoToJSMpegFormat(socket, files[data.name].name)
             } else {
                 // request for another slice
                 socket.emit('request slice upload', {
                     currentSlice: files[data.name].slice
+                })
+            }
+        })
+}
+
+// convert video to jsmpeg format
+const convertVideoToJSMpegFormat = (socket, filename) => {
+    const keklul = convertForJSMpegCommand(filename)
+        .on('exit',(code) => {
+            console.log('ffmpeg exited with code ' + code)
+
+            // if success
+            if (code === 0) {
+                // read file as Buffer
+                fs.readFile(path.join(__dirname, '/files/converted/FOREDITOR.ts'), (err, data) => {
+                    if (err) return console.log(err)
+
+                    const videoArrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength)
+                    // socket.emit()
+                    // access ArrayBuffer to send it to front-end
                 })
             }
         })
